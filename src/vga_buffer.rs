@@ -2,7 +2,6 @@ use core::fmt;
 use lazy_static::lazy_static;
 use spin::Mutex;
 use volatile::Volatile;
-use x86_64::instructions::interrupts;
 
 lazy_static! {
     /// A global `Writer` instance that can be used for printing to the VGA text buffer.
