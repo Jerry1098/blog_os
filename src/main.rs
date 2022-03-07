@@ -16,7 +16,7 @@ use bootloader::{entry_point, BootInfo};
 use core::panic::PanicInfo;
 use x86_64::VirtAddr;
 use blog_os::task::simple_executor::SimpleExecutor;
-use blog_os::task::Task;
+use blog_os::task::{keyboard, Task};
 
 entry_point!(kernel_main);
 
@@ -32,6 +32,7 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
 
     let mut executor = SimpleExecutor::new();
     executor.spawn(Task::new(example_task()));
+    executor.spawn(Task::new(keyboard::print_keypresses()));
     executor.run();
 
     #[cfg(test)]
