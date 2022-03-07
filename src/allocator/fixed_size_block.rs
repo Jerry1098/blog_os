@@ -1,8 +1,8 @@
-use core::alloc::Layout;
-use core::{mem, ptr};
 use super::Locked;
 use alloc::alloc::GlobalAlloc;
+use core::alloc::Layout;
 use core::ptr::NonNull;
+use core::{mem, ptr};
 
 struct ListNode {
     next: Option<&'static mut ListNode>,
@@ -75,7 +75,7 @@ unsafe impl GlobalAlloc for Locked<FixedSizeBlockAllocator> {
                     }
                 }
             }
-            None => allocator.fallback_alloc(layout)
+            None => allocator.fallback_alloc(layout),
         }
     }
 
