@@ -10,14 +10,16 @@ use alloc::boxed::Box;
 use alloc::rc::Rc;
 use alloc::vec;
 use alloc::vec::Vec;
+use core::panic::PanicInfo;
+
+use bootloader::{BootInfo, entry_point};
+use x86_64::VirtAddr;
+
+use blog_os::{allocator, memory, println};
 use blog_os::memory::BootInfoFrameAllocator;
+use blog_os::task::{keyboard, Task};
 use blog_os::task::executor::Executor;
 use blog_os::task::simple_executor::SimpleExecutor;
-use blog_os::task::{keyboard, Task};
-use blog_os::{allocator, memory, println};
-use bootloader::{entry_point, BootInfo};
-use core::panic::PanicInfo;
-use x86_64::VirtAddr;
 
 entry_point!(kernel_main);
 

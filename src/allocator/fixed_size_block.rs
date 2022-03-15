@@ -1,8 +1,9 @@
-use super::Locked;
 use alloc::alloc::GlobalAlloc;
+use core::{mem, ptr};
 use core::alloc::Layout;
 use core::ptr::NonNull;
-use core::{mem, ptr};
+
+use super::Locked;
 
 struct ListNode {
     next: Option<&'static mut ListNode>,

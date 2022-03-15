@@ -1,8 +1,10 @@
-use super::Locked;
-use crate::allocator::align_up;
 use alloc::alloc::{GlobalAlloc, Layout};
 use core::mem;
 use core::ptr;
+
+use crate::allocator::align_up;
+
+use super::Locked;
 
 unsafe impl GlobalAlloc for Locked<LinkedListAllocator> {
     unsafe fn alloc(&self, layout: Layout) -> *mut u8 {

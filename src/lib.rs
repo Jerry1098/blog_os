@@ -7,8 +7,11 @@
 #![test_runner(crate::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
-use bootloader::{entry_point, BootInfo};
+extern crate alloc;
+
 use core::panic::PanicInfo;
+
+use bootloader::{BootInfo, entry_point};
 
 pub mod allocator;
 pub mod gdt;
@@ -17,8 +20,6 @@ pub mod memory;
 pub mod serial;
 pub mod task;
 pub mod vga_buffer;
-
-extern crate alloc;
 
 #[cfg(test)]
 entry_point!(test_kernel_main);

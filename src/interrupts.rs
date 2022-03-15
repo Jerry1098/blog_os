@@ -1,7 +1,11 @@
-use crate::{hlt_loop, print, println};
 use lazy_static::lazy_static;
+use pic8259::ChainedPics;
+use spin;
+use spin::Mutex;
+use x86_64::registers::control::Cr2;
 use x86_64::structures::idt::{InterruptDescriptorTable, InterruptStackFrame, PageFaultErrorCode};
 
+use crate::{hlt_loop, print, println};
 use crate::gdt;
 
 lazy_static! {
@@ -34,11 +38,6 @@ extern "x86-interrupt" fn double_fault_handler(
 ) -> ! {
     panic!("EXCEPTION: DOUBLE FAULT\n{:#?}", stack_frame);
 }
-
-use pic8259::ChainedPics;
-use spin;
-use spin::Mutex;
-use x86_64::registers::control::Cr2;
 
 pub const PIC_1_OFFSET: u8 = 32;
 pub const PIC_2_OFFSET: u8 = PIC_1_OFFSET + 8;

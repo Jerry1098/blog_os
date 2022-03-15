@@ -1,12 +1,14 @@
-use crate::{print, println};
-use conquer_once::spin::OnceCell;
 use core::pin::Pin;
 use core::task::{Context, Poll};
+
+use conquer_once::spin::OnceCell;
 use crossbeam_queue::ArrayQueue;
+use futures_util::Stream;
 use futures_util::stream::StreamExt;
 use futures_util::task::AtomicWaker;
-use futures_util::Stream;
-use pc_keyboard::{layouts, DecodedKey, HandleControl, Keyboard, ScancodeSet1};
+use pc_keyboard::{DecodedKey, HandleControl, Keyboard, layouts, ScancodeSet1};
+
+use crate::{print, println};
 
 static SCANCODE_QUEUE: OnceCell<ArrayQueue<u8>> = OnceCell::uninit();
 static WAKER: AtomicWaker = AtomicWaker::new();

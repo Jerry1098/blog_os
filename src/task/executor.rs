@@ -1,9 +1,11 @@
-use crate::task::{Task, TaskId};
 use alloc::collections::BTreeMap;
 use alloc::sync::Arc;
 use alloc::task::Wake;
 use core::task::{Context, Poll, Waker};
+
 use crossbeam_queue::ArrayQueue;
+
+use crate::task::{Task, TaskId};
 
 pub struct Executor {
     tasks: BTreeMap<TaskId, Task>,

@@ -2,8 +2,14 @@
 #![no_std]
 #![no_main]
 
-use blog_os::serial_print;
 use core::panic::PanicInfo;
+
+use lazy_static::lazy_static;
+use x86_64::structures::idt::InterruptDescriptorTable;
+use x86_64::structures::idt::InterruptStackFrame;
+
+use blog_os::{exit_qemu, QemuExitCode, serial_println};
+use blog_os::serial_print;
 
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
@@ -28,9 +34,6 @@ fn panic(info: &PanicInfo) -> ! {
     blog_os::test_panic_handler(info);
 }
 
-use lazy_static::lazy_static;
-use x86_64::structures::idt::InterruptDescriptorTable;
-
 lazy_static! {
     static ref TEST_IDT: InterruptDescriptorTable = {
         let mut idt = InterruptDescriptorTable::new();
@@ -46,9 +49,6 @@ lazy_static! {
 pub fn init_test_idt() {
     TEST_IDT.load();
 }
-
-use blog_os::{exit_qemu, serial_println, QemuExitCode};
-use x86_64::structures::idt::InterruptStackFrame;
 
 extern "x86-interrupt" fn test_double_fault_handler(
     _stack_frame: InterruptStackFrame,

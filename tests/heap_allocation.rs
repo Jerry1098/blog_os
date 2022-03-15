@@ -8,9 +8,11 @@ extern crate alloc;
 
 use alloc::boxed::Box;
 use alloc::vec::Vec;
-use blog_os::allocator::HEAP_SIZE;
-use bootloader::{entry_point, BootInfo};
 use core::panic::PanicInfo;
+
+use bootloader::{BootInfo, entry_point};
+
+use blog_os::allocator::HEAP_SIZE;
 
 entry_point!(main);
 
