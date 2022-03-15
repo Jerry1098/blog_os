@@ -3,10 +3,10 @@ use conquer_once::spin::OnceCell;
 use core::pin::Pin;
 use core::task::{Context, Poll};
 use crossbeam_queue::ArrayQueue;
-use futures_util::Stream;
-use futures_util::task::AtomicWaker;
 use futures_util::stream::StreamExt;
-use pc_keyboard::{DecodedKey, HandleControl, Keyboard, layouts, ScancodeSet1};
+use futures_util::task::AtomicWaker;
+use futures_util::Stream;
+use pc_keyboard::{layouts, DecodedKey, HandleControl, Keyboard, ScancodeSet1};
 
 static SCANCODE_QUEUE: OnceCell<ArrayQueue<u8>> = OnceCell::uninit();
 static WAKER: AtomicWaker = AtomicWaker::new();
@@ -43,7 +43,9 @@ impl Stream for ScancodeStream {
     type Item = u8;
 
     fn poll_next(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Option<Self::Item>> {
-        let queue = SCANCODE_QUEUE.try_get().expect("scancode queue not initialized");
+        let queue = SCANCODE_QUEUE
+            .try_get()
+            .expect("scancode queue not initialized");
 
         if let Ok(scancode) = queue.pop() {
             return Poll::Ready(Some(scancode));

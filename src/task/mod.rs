@@ -1,11 +1,11 @@
-use core::{future::Future, pin::Pin};
-use core::task::{Context, Poll};
 use alloc::boxed::Box;
 use core::sync::atomic::{AtomicU64, Ordering};
+use core::task::{Context, Poll};
+use core::{future::Future, pin::Pin};
 
-pub mod simple_executor;
 pub mod executor;
 pub mod keyboard;
+pub mod simple_executor;
 
 pub struct Task {
     id: TaskId,
@@ -20,7 +20,6 @@ impl Task {
         }
     }
 }
-
 
 impl Task {
     fn poll(&mut self, context: &mut Context) -> Poll<()> {

@@ -1,9 +1,9 @@
+use crate::task::{Task, TaskId};
 use alloc::collections::BTreeMap;
 use alloc::sync::Arc;
 use alloc::task::Wake;
 use core::task::{Context, Poll, Waker};
 use crossbeam_queue::ArrayQueue;
-use crate::task::{Task, TaskId};
 
 pub struct Executor {
     tasks: BTreeMap<TaskId, Task>,
@@ -20,7 +20,7 @@ impl Executor {
     }
 
     fn sleep_if_idle(&self) {
-        use x86_64::instructions::interrupts::{ self, enable_and_hlt, disable, enable };
+        use x86_64::instructions::interrupts::{self, disable, enable, enable_and_hlt};
 
         disable();
         if self.task_queue.is_empty() {
@@ -86,7 +86,9 @@ struct TaskWaker {
 
 impl TaskWaker {
     fn wake_task(&self) {
-        self.task_queue.push(self.task_id).expect("task_queue failed");
+        self.task_queue
+            .push(self.task_id)
+            .expect("task_queue failed");
     }
 }
 
